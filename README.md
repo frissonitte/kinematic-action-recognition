@@ -87,4 +87,4 @@ The stream replays the feature matrix in temporal order. At the 50% mark, 30% of
 
 ## Also in this project
 
-A separate Kaggle competition notebook (`competition.ipynb`) was developed in parallel for the _Industry 5.0 Scalable Kinematic Action Recognition_ competition — same domain, but a self-contained LightGBM + RandomForest ensemble on a different (non-proprietary) competition dataset. It placed **1st on the private leaderboard (0.94169 accuracy)**.
+A separate Kaggle competition notebook (`competition-notebook.ipynb`) was developed in parallel for the _Industry 5.0 Scalable Kinematic Action Recognition_ competition — same domain, but a self-contained LightGBM + RandomForest ensemble on a different (non-proprietary) competition dataset. It placed **1st on the private leaderboard (0.94169 accuracy)**.
