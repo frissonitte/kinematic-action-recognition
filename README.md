@@ -6,28 +6,32 @@ A full end-to-end pipeline for classifying factory operator actions from high-fr
 
 ## Results
 
-| Phase | Method | Key Result |
-|-------|--------|------------|
-| 1 | Dask out-of-core ingestion | 10 GB CSV → 6.86 GB Parquet (3× compression) |
-| 2 | Scalable EDA | README said binary; EDA found 15 distinct classes |
-| 3 | Rolling-window feature extraction | 9.7M rows → 97,612 windows × 528 features |
-| 4A | MiniBatchKMeans + PCA + Hungarian | Macro F1 ≈ 0.14 (curse of dimensionality baseline) |
-| 4B | RandomForest (binary, 0 vs 1) | Macro F1 ≈ 0.9995 · 1.3s train · 8.7 MB RAM |
-| 5 | ARF + ADWIN streaming | 81 win/sec · drift detected in ~58 windows (~290 ms) · 59 MB peak RAM |
+| Phase | Method                            | Key Result                                                            |
+| ----- | --------------------------------- | --------------------------------------------------------------------- |
+| 1     | Dask out-of-core ingestion        | 10 GB CSV → 6.86 GB Parquet (3× compression)                          |
+| 2     | Scalable EDA                      | README said binary; EDA found 15 distinct classes                     |
+| 3     | Rolling-window feature extraction | 9.7M rows → 97,612 windows × 528 features                             |
+| 4A    | MiniBatchKMeans + PCA + Hungarian | Macro F1 ≈ 0.14 (curse of dimensionality baseline)                    |
+| 4B    | RandomForest (binary, 0 vs 1)     | Macro F1 ≈ 0.9995 · 1.3s train · 8.7 MB RAM                           |
+| 5     | ARF + ADWIN streaming             | 81 win/sec · drift detected in ~58 windows (~290 ms) · 59 MB peak RAM |
 
 ---
 
 ## Repository Structure
 
 ```
-├── phase-1-data-architecture.py   # CSV → Parquet via Dask (out-of-core)
-├── phase-2-scalable-eda.py        # Label distribution, stationarity checks, boxplots
-├── phase-3-feature-engineering.py # Sliding-window extraction (200-row, 50% overlap)
-├── phase-4a-unsupervised.py       # MiniBatchKMeans + PCA + Hungarian matching
-├── phase-4b-supervised.py         # RandomForest on binary subset (class 0 vs 1)
-├── phase-5-streaming.py           # Prequential ARF + ADWIN drift detection
-├── requirements.txt
-└── plots/                         # All output figures (generated on run)
+├── pipeline/
+│ └── phase-1-data-architecture.py # CSV → Parquet via Dask (out-of-core)
+│ └── phase-2-scalable-eda.py # Label distribution, stationarity checks, boxplots
+│ └── phase-3-feature-engineering.py # Sliding-window extraction (200-row, 50% overlap)
+│ └── phase-4a-unsupervised.py # MiniBatchKMeans + PCA + Hungarian matching
+│ └── phase-4b-supervised.py # RandomForest on binary subset (class 0 vs 1)
+│ └── phase-5-streaming.py # Prequential ARF + ADWIN drift detection
+│ └── requirements.txt
+├── competition/
+│ └── ise446-competition.ipynb
+├── plots/
+└── README.md
 ```
 
 ---
@@ -83,4 +87,4 @@ The stream replays the feature matrix in temporal order. At the 50% mark, 30% of
 
 ## Also in this project
 
-A separate Kaggle competition notebook (`competition.ipynb`) was developed in parallel for the *Industry 5.0 Scalable Kinematic Action Recognition* competition — same domain, but a self-contained LightGBM + RandomForest ensemble on a different (non-proprietary) competition dataset. It placed **1st on the private leaderboard (0.94169 accuracy)**.
+A separate Kaggle competition notebook (`competition.ipynb`) was developed in parallel for the _Industry 5.0 Scalable Kinematic Action Recognition_ competition — same domain, but a self-contained LightGBM + RandomForest ensemble on a different (non-proprietary) competition dataset. It placed **1st on the private leaderboard (0.94169 accuracy)**.
