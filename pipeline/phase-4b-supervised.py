@@ -51,7 +51,7 @@ def main():
         n_estimators=200,
         max_depth=None,
         class_weight='balanced',
-        n_jobs=-1,          # use all 16 threads (Ryzen 7 7800X3D)
+        n_jobs=-1,
         random_state=42
     )
     model.fit(X_train, y_train)
